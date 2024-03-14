@@ -86,7 +86,7 @@ while True:
     
 # If the loop has ended, create a table of summary that shows everything that was inputted.
 print("\n\n TABLE OF SUMMARY")
-# Note: you can adjust the numbers inside the curly bracket based on how far or near you want them to be from one another.
+# Note: you can adjust the numbers inside the curly bracket based on how far or near you want these to be from one another.
 print('{: ^15}{: ^15}{: ^20}'.format("LINE NO.", "DISTANCE(m)", "BEARING"))
 for line in lines:
     print('{: ^15}{: ^15}{: ^20}'.format(line[0], line[1], line[2]))
