@@ -108,6 +108,7 @@ while True:
     print()
     print("LINE NO.", counter)
 
+    # Ask for inputs.
     distance = input("Distance(m): ")
     azimuth = input("Azimuth from the south: ")
 
