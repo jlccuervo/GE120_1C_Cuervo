@@ -3,39 +3,69 @@ import { Image } from 'expo-image';
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, Button, TextInput } from 'react-native';
 import earthImage from './pictures/earth.jpg';
+import {Picker} from '@react-native-picker/picker';
 
 export default function App() {
 
-  const [value, onChangeValue] = React.useState('Enter text here'); //do this so you can input a value
-  const [InputValue, setInputValue] = React.useState('Input value here');
-
+  const [OutputValue, setOutputValue] = React.useState('---'); //declare this constant variable so you can see the converted value
+  const [InputValue, setInputValue] = React.useState('Input value here'); //declare this constant variable so you can input a value
+  const [InputCase, setInputCase] = React.useState('Select Case');//declare this constant variable so you can select a case
+  //declare this constant variable for the image to appear
   const blurhash ='|rF?hV%2WCj[ayj[a|j[az_NaeWBj@ayfRayfQfQM{M|azj[azf6fQfQfQIpWXofj[ayj[j[fQayWCoeoeaya}j[ayfQa{oLj?j[WVj[ayayj[fQoff7azayj[ayj[j[ayofayayayj[fQj[ayayj[ayfjj[j[ayjuayj[';
 
+  // create a function for converting DD to DMS and DMS to DD
+  function convertValue(value) {
+    if (InputCase === "1") {
+        // Convert DD to DMS
+        var degrees = Math.floor(value);
+        var minutes = Math.floor((value - degrees) * 60);
+        var seconds = Math.round((value - degrees - (minutes / 60)) * 3600);
+        var output = degrees.toString().concat("-", minutes.toString(), "-", seconds.toString());
+        setOutputValue(output);
+    } else if (InputCase === "2") {
+        // Convert DMS to DD
+        var elements = value.split("-");
+        var output = parseFloat(elements[0]) + parseFloat(elements[1]) / 60 + parseFloat(elements[2]) / 3600;
+        setOutputValue(output.toString());
+    } else {
+        // Handle invalid input case
+        setOutputValue("Invalid Input Case");
+    }
+}
+
   return (
+    // create a box for the heading, input, output, and footer
     <View style={styles.box}>
       <View style={styles.box1}>
         <Text style ={styles.titleText}>WELCOME TO DMS-DD CONVERTER</Text>
       </View>
-      <View style={styles.box2}>
-        <View style={styles.box2_1}>
-          <text>HELLO</text>
-          <text>WORLD</text>
+      <View style={styles.box2}> 
+        <View style={styles.box2_1}> 
+          <text>INPUT CASE:</text>
+          <Picker
+            selectedValue={InputCase}
+            onValueChange={(itemValue, itemIndex) =>
+              setInputCase(itemValue)
+            }>
+            <Picker.Item label="DD TO DMS" value="1" />
+            <Picker.Item label="DMS TO DD" value="2" />
+          </Picker> 
         </View>
         <View style={styles.box2_2}>
-          <TextInput
+          <TextInput 
             style={styles.input}
             onChangeText={setInputValue}
             value={InputValue}
           />
           <Button
-            title = "Press me"
-            onPress={()=>Alert.alert('Simple Button pressed')}
+            title = "Convert"
+            onPress={()=>convertValue(InputValue)}
           />
         </View>
       </View>
       <View style={styles.box3}>
-        <Text style ={styles.titleText}>Output:</Text>
-        <Text style ={styles.titleText}>{value}</Text>
+        <Text style ={styles.titleText1}>OUTPUT:</Text>
+        <Text style ={styles.titleText1}>{OutputValue}</Text>
       </View>
       <View style={styles.box4}>
         <Image
@@ -50,7 +80,7 @@ export default function App() {
   );
 }
 
-
+// create styles for each box and text
 const styles = StyleSheet.create({
   box: {
     width: '100%',
@@ -62,7 +92,7 @@ const styles = StyleSheet.create({
   box1: {
     width: '100%',
     height: '10%',
-    backgroundColor: 'pink',
+    backgroundColor: '#000829',
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -77,18 +107,18 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     width: '100%',
     height: '50%',
-    backgroundColor: 'blue',
+    backgroundColor: '#A8D1DF',
   },
   box2_2: {
     flex: 1,
     width: '100%',
     height: '50%',
-    backgroundColor: 'red',
+    backgroundColor: '#A8D1DF',
   },
   box3: {
     width: '100%',
     height: '25%',
-    backgroundColor: 'white',
+    backgroundColor: '#A8D1DF',
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -101,7 +131,13 @@ const styles = StyleSheet.create({
   },
   titleText: {
     fontSize: 24,
-    fontWeight: '600'
+    fontWeight: '600',
+    color: 'white'
+  },
+  titleText1: {
+    fontSize: 24,
+    fontWeight: '600',
+    color: 'black'
   },
   Image: {
     flex: 1,
@@ -112,7 +148,7 @@ const styles = StyleSheet.create({
     width: '70%',
     height: '50%',
     fontSize: 24,
-    color:'white',
+    color:'black',
   }
 });
   
